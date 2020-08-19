@@ -17,6 +17,15 @@ public class ActivityUnitDAO {
 	private PreparedStatement stmt = null;
 	private ResultSet rs = null;
 
+	private void closeConnections(){
+		if((rs != null) && !rs.isClosed())
+			rs.close();
+		if((stmt != null) && !stmt.isClosed())
+			stmt.close();
+		if((conn != null) && !conn.isClosed())
+			conn.close();
+	}
+
 	public List<ActivityUnit> listAll() throws SQLException{
 		conn = null;
 		stmt = null;
@@ -36,12 +45,7 @@ public class ActivityUnitDAO {
 			
 			return list;
 		}finally{
-			if((rs != null) && !rs.isClosed())
-				rs.close();
-			if((stmt != null) && !stmt.isClosed())
-				stmt.close();
-			if((conn != null) && !conn.isClosed())
-				conn.close();
+			closeConnections();
 		}
 	}
 	
@@ -64,12 +68,7 @@ public class ActivityUnitDAO {
 				return null;
 			}
 		}finally{
-			if((rs != null) && !rs.isClosed())
-				rs.close();
-			if((stmt != null) && !stmt.isClosed())
-				stmt.close();
-			if((conn != null) && !conn.isClosed())
-				conn.close();
+			closeConnections();
 		}
 	}
 	
@@ -112,12 +111,7 @@ public class ActivityUnitDAO {
 			
 			return unit.getIdActivityUnit();
 		}finally{
-			if((rs != null) && !rs.isClosed())
-				rs.close();
-			if((stmt != null) && !stmt.isClosed())
-				stmt.close();
-			if((conn != null) && !conn.isClosed())
-				conn.close();
+			closeConnections();
 		}
 	}
 	
