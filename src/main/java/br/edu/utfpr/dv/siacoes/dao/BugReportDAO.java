@@ -15,11 +15,15 @@ import br.edu.utfpr.dv.siacoes.model.Module;
 import br.edu.utfpr.dv.siacoes.model.User;
 
 public class BugReportDAO {
-	
+
+	private Connection conn = null;
+	private PreparedStatement stmt = null;
+	private ResultSet rs = null;
+
 	public BugReport findById(int id) throws SQLException{
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
@@ -47,9 +51,9 @@ public class BugReportDAO {
 	}
 	
 	public List<BugReport> listAll() throws SQLException{
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
@@ -77,9 +81,9 @@ public class BugReportDAO {
 	
 	public int save(BugReport bug) throws SQLException{
 		boolean insert = (bug.getIdBugReport() == 0);
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
