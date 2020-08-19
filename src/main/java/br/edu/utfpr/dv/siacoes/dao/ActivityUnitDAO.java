@@ -12,11 +12,15 @@ import br.edu.utfpr.dv.siacoes.log.UpdateEvent;
 import br.edu.utfpr.dv.siacoes.model.ActivityUnit;
 
 public class ActivityUnitDAO {
-	
+
+	private Connection conn = null;
+	private PreparedStatement stmt = null;
+	private ResultSet rs = null;
+
 	public List<ActivityUnit> listAll() throws SQLException{
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
@@ -42,9 +46,9 @@ public class ActivityUnitDAO {
 	}
 	
 	public ActivityUnit findById(int id) throws SQLException{
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
@@ -71,9 +75,9 @@ public class ActivityUnitDAO {
 	
 	public int save(int idUser, ActivityUnit unit) throws SQLException{
 		boolean insert = (unit.getIdActivityUnit() == 0);
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		conn = null;
+		stmt = null;
+		rs = null;
 		
 		try{
 			conn = ConnectionDAO.getInstance().getConnection();
