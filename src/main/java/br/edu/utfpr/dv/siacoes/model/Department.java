@@ -16,4 +16,17 @@ import lombok.Data;
 	private boolean active;
 	private String site;
 	private String initials;
+
+	public Department() {
+		this.setIdDepartment(0);
+		this.setCampus(new Campus());
+		this.setName("");
+		this.setFullName("");
+		this.setLogo(null);
+		this.setActive(true);
+		this.setSite("");
+		this.setInitials("");
+	}
 }
+
+
