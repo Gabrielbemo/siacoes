@@ -19,7 +19,9 @@ public class BugReportBO {
 		try {
 			BugReportDAO dao = new BugReportDAO();
 			
-			return dao.listAll();
+			return dao.listAll("SELECT bugreport.*, \"user\".name " +
+					"FROM bugreport INNER JOIN \"user\" ON \"user\".idUser=bugreport.idUser " +
+					"ORDER BY status, reportdate");
 		} catch (SQLException e) {
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
 			

@@ -14,7 +14,7 @@ public class ActivityUnitBO {
 		try{
 			ActivityUnitDAO dao = new ActivityUnitDAO();
 			
-			return dao.listAll();
+			return dao.listAll("SELECT * FROM activityunit ORDER BY description");
 		}catch(SQLException e){
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
 			

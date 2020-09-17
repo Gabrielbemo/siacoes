@@ -14,20 +14,7 @@ import br.edu.utfpr.dv.siacoes.model.BugReport.BugStatus;
 import br.edu.utfpr.dv.siacoes.model.Module;
 import br.edu.utfpr.dv.siacoes.model.User;
 
-public class BugReportDAO {
-
-	private Connection conn = null;
-	private PreparedStatement stmt = null;
-	private ResultSet rs = null;
-
-	private void closeConnections(){
-		if((rs != null) && !rs.isClosed())
-			rs.close();
-		if((stmt != null) && !stmt.isClosed())
-			stmt.close();
-		if((conn != null) && !conn.isClosed())
-			conn.close();
-	}
+public class BugReportDAO extends DaoModel<BugReport> {
 
 	public BugReport findById(int id) throws SQLException{
 		conn = null;
@@ -49,30 +36,6 @@ public class BugReportDAO {
 			}else{
 				return null;
 			}
-		}finally{
-			closeConnections();
-		}
-	}
-	
-	public List<BugReport> listAll() throws SQLException{
-		conn = null;
-		stmt = null;
-		rs = null;
-		
-		try{
-			conn = ConnectionDAO.getInstance().getConnection();
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery("SELECT bugreport.*, \"user\".name " +
-					"FROM bugreport INNER JOIN \"user\" ON \"user\".idUser=bugreport.idUser " +
-					"ORDER BY status, reportdate");
-			List<BugReport> list = new ArrayList<BugReport>();
-			
-			while(rs.next()){
-				list.add(this.loadObject(rs));
-			}
-			
-			return list;
 		}finally{
 			closeConnections();
 		}
@@ -127,7 +90,7 @@ public class BugReportDAO {
 		}
 	}
 	
-	private BugReport loadObject(ResultSet rs) throws SQLException{
+	public BugReport loadObject(ResultSet rs) throws SQLException{
 		BugReport bug = new BugReport();
 		
 		bug.setIdBugReport(rs.getInt("idBugReport"));

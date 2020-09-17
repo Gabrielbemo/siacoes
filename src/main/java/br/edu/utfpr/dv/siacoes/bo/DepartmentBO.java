@@ -25,7 +25,9 @@ public class DepartmentBO {
 		try{
 			DepartmentDAO dao = new DepartmentDAO();
 			
-			return dao.listAll(onlyActive);
+			return dao.listAll("SELECT department.*, campus.name AS campusName " +
+					"FROM department INNER JOIN campus ON campus.idCampus=department.idCampus " +
+					(onlyActive ? " WHERE department.active=1" : "") + " ORDER BY department.name");
 		}catch(Exception e){
 			Logger.getGlobal().log(Level.SEVERE, e.getMessage(), e);
 			

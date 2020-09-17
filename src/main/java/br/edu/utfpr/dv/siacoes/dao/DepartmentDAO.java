@@ -12,20 +12,7 @@ import java.util.List;
 import br.edu.utfpr.dv.siacoes.log.UpdateEvent;
 import br.edu.utfpr.dv.siacoes.model.Department;
 
-public class DepartmentDAO {
-
-	private Connection conn = null;
-	private PreparedStatement stmt = null;
-	private ResultSet rs = null;
-
-	private void closeConnections(){
-		if((rs != null) && !rs.isClosed())
-			rs.close();
-		if((stmt != null) && !stmt.isClosed())
-			stmt.close();
-		if((conn != null) && !conn.isClosed())
-			conn.close();
-	}
+public class DepartmentDAO extends DaoModel<Department> {
 
 	public Department findById(int id) throws SQLException{
 		conn = null;
@@ -48,31 +35,6 @@ public class DepartmentDAO {
 			}else{
 				return null;
 			}
-		}finally{
-			closeConnections();
-		}
-	}
-	
-	public List<Department> listAll(boolean onlyActive) throws SQLException{
-		conn = null;
-		stmt = null;
-		rs = null;
-		
-		try{
-			conn = ConnectionDAO.getInstance().getConnection();
-			stmt = conn.createStatement();
-		
-			rs = stmt.executeQuery("SELECT department.*, campus.name AS campusName " +
-					"FROM department INNER JOIN campus ON campus.idCampus=department.idCampus " + 
-					(onlyActive ? " WHERE department.active=1" : "") + " ORDER BY department.name");
-			
-			List<Department> list = new ArrayList<Department>();
-			
-			while(rs.next()){
-				list.add(this.loadObject(rs));
-			}
-			
-			return list;
 		}finally{
 			closeConnections();
 		}
@@ -154,7 +116,7 @@ public class DepartmentDAO {
 		}
 	}
 	
-	private Department loadObject(ResultSet rs) throws SQLException{
+	public Department loadObject(ResultSet rs) throws SQLException{
 		Department department = new Department();
 		
 		department.setIdDepartment(rs.getInt("idDepartment"));

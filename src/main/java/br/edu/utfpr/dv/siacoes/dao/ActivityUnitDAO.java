@@ -11,43 +11,7 @@ import java.util.List;
 import br.edu.utfpr.dv.siacoes.log.UpdateEvent;
 import br.edu.utfpr.dv.siacoes.model.ActivityUnit;
 
-public class ActivityUnitDAO {
-
-	private Connection conn = null;
-	private PreparedStatement stmt = null;
-	private ResultSet rs = null;
-
-	private void closeConnections(){
-		if((rs != null) && !rs.isClosed())
-			rs.close();
-		if((stmt != null) && !stmt.isClosed())
-			stmt.close();
-		if((conn != null) && !conn.isClosed())
-			conn.close();
-	}
-
-	public List<ActivityUnit> listAll() throws SQLException{
-		conn = null;
-		stmt = null;
-		rs = null;
-		
-		try{
-			conn = ConnectionDAO.getInstance().getConnection();
-			stmt = conn.createStatement();
-		
-			rs = stmt.executeQuery("SELECT * FROM activityunit ORDER BY description");
-			
-			List<ActivityUnit> list = new ArrayList<ActivityUnit>();
-			
-			while(rs.next()){
-				list.add(this.loadObject(rs));
-			}
-			
-			return list;
-		}finally{
-			closeConnections();
-		}
-	}
+public class ActivityUnitDAO extends DaoModel<ActivityUnit> {
 	
 	public ActivityUnit findById(int id) throws SQLException{
 		conn = null;
@@ -115,14 +79,14 @@ public class ActivityUnitDAO {
 		}
 	}
 	
-	private ActivityUnit loadObject(ResultSet rs) throws SQLException{
+	public ActivityUnit loadObject(ResultSet rs) throws SQLException{
 		ActivityUnit unit = new ActivityUnit();
-		
+
 		unit.setIdActivityUnit(rs.getInt("idActivityUnit"));
 		unit.setDescription(rs.getString("Description"));
 		unit.setFillAmount(rs.getInt("fillAmount") == 1);
 		unit.setAmountDescription(rs.getString("amountDescription"));
-		
+
 		return unit;
 	}
 
